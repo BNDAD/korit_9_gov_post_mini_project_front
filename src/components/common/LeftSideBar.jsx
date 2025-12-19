@@ -4,15 +4,26 @@ import * as s from "./styles";
 import { IoAddCircleOutline, IoHomeOutline } from "react-icons/io5";
 import { MdOutlineExplore } from "react-icons/md";
 import { useMeQuery } from "../../queries/usersQueries";
+import AddPostModal from "../post/AddPostModal";
+import { useRef, useState } from "react";
 
 function LeftSideBar({ children }) {
   const location = useLocation();
   const { pathname } = location;
+  const [addPostModalOpen, setAddPostModalOpen] = useState(false);
+  const layoutRef = useRef();
 
   const { isLoading, data } = useMeQuery();
 
+  const handleAddPostModalOpenOnClick = () => {
+    setAddPostModalOpen(true);
+  };
+  const AddPostModalClose = () => {
+    setAddPostModalOpen(false);
+  };
+
   return (
-    <div css={s.sideBarLayout}>
+    <div css={s.sideBarLayout} ref={layoutRef}>
       <aside css={s.sideBarContainer}>
         <h1>Social Board</h1>
         <ul>
@@ -32,8 +43,11 @@ function LeftSideBar({ children }) {
               Expolore
             </li>
           </Link>
-          <Link to={"/post/add"}>
-            <li css={s.menuListItem(pathname === "/post/add")}>
+          <Link>
+            <li
+              css={s.menuListItem(false)}
+              onClick={handleAddPostModalOpenOnClick}
+            >
               <div>
                 <IoAddCircleOutline />
               </div>
@@ -60,6 +74,13 @@ function LeftSideBar({ children }) {
         </div>
       </aside>
       <div>{children}</div>
+      {!!layoutRef.current && addPostModalOpen && (
+        <AddPostModal
+          isOpen={addPostModalOpen}
+          onRequestClose={AddPostModalClose}
+          layoutRef={layoutRef}
+        />
+      )}
     </div>
   );
 }
