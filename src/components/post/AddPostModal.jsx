@@ -6,20 +6,25 @@ import Loading from "../common/Loading";
 import Select from "react-select";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoIosClose } from "react-icons/io";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPost } from "../../apis/posts/postApi";
 import { useCreatePostMutation } from "../../mutation/postMutations";
 
-function AddPostModal({ isOpen, onRequestClose, layoutRef }) {
+function AddPostModal({ isOpen, onRequestClose, layoutRef, setHomeRefresh }) {
   const [visibilityOption, setVisibilityOption] = useState({
     label: "Public",
     value: "Public",
   });
   const [textareaValue, setTextareaValue] = useState("");
   const [uploadImages, setUploadImages] = useState([]);
+  const [disabled, setDisabled] = useState(true);
   const imageListBoxRef = useRef();
   const { isLoading, data } = useMeQuery();
   const createPostMutation = useCreatePostMutation();
+
+  useEffect(() => {
+    setDisabled(!textareaValue && !uploadImages.length);
+  }, [textareaValue, uploadImages]);
 
   const handleOnWheel = (e) => {
     imageListBoxRef.current.scrollLeft += e.deltaY;
@@ -71,6 +76,7 @@ function AddPostModal({ isOpen, onRequestClose, layoutRef }) {
     try {
       await createPostMutation.mutateAsync(formData);
       alert("작성 완료");
+      setHomeRefresh(true);
       onRequestClose();
     } catch (error) {
       alert(error.response.data.message);
@@ -88,6 +94,7 @@ function AddPostModal({ isOpen, onRequestClose, layoutRef }) {
           position: "absolute",
           top: 0,
           left: 0,
+          zIndex: 20,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -155,7 +162,11 @@ function AddPostModal({ isOpen, onRequestClose, layoutRef }) {
           </div>
         </main>
         <footer>
-          <button onClick={handlePostSubmitOnClick} css={s.postButton}>
+          <button
+            onClick={handlePostSubmitOnClick}
+            css={s.postButton}
+            disabled={disabled}
+          >
             Post
           </button>
           <button onClick={onRequestClose}>Cancel</button>
