@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getFeeds } from "../apis/posts/postApi";
+import { getFeeds } from "../apis/posts/postsApi";
 
 export const useGetFeeds = () =>
   useInfiniteQuery({

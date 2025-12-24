@@ -7,8 +7,8 @@ import Select from "react-select";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoIosClose } from "react-icons/io";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { createPost } from "../../apis/posts/postApi";
-import { useCreatePostMutation } from "../../mutation/postMutations";
+import { createPost } from "../../apis/posts/postsApi";
+import { useCreatePostMutation } from "../../mutations/postMutations";
 
 function AddPostModal({ isOpen, onRequestClose, layoutRef, setHomeRefresh }) {
   const [visibilityOption, setVisibilityOption] = useState({

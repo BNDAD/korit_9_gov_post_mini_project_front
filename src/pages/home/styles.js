@@ -12,8 +12,7 @@ export const feedContainer = (commentOpen) => css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
-  width: 65%;
+  width: 60%;
   overflow-y: ${commentOpen ? "hidden" : "auto"};
 
   &::-webkit-scrollbar {
@@ -51,7 +50,7 @@ export const feedItemContainer = css`
     gap: 5px;
     box-sizing: border-box;
     border-top: 1px solid #dbdbdb;
-    padding: 5px;
+    padding: 5px 5px 0;
 
     & > div {
       display: flex;
@@ -62,9 +61,8 @@ export const feedItemContainer = css`
     & > div:nth-of-type(1) {
       font-size: 24px;
     }
-
     & > div:nth-of-type(2) {
-      font-size: 24px;
+      font-size: 21px;
     }
   }
 `;
@@ -76,7 +74,7 @@ export const profileImage = (url) => css`
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  background-image: url("${url}");
+  background-image: url(${url});
   background-position: center;
   background-size: cover;
 `;
@@ -101,18 +99,20 @@ export const userInfo = css`
 
 export const feedImageContainer = css`
   & .slick-prev {
-    left: 25px;
+    left: 15px;
     z-index: 2;
     &::before {
       color: black;
+      font-size: 30px;
     }
   }
 
   & .slick-next {
-    right: 25px;
+    right: 15px;
     z-index: 2;
     &::before {
       color: black;
+      font-size: 30px;
     }
   }
 `;
